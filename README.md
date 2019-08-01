@@ -29,3 +29,6 @@ Due to some limitation in ganache-cli the only addresses that can interact with 
 ```
 truffle test
 ```
+
+###### NOTICE
+The goal of this project was to demonstrate specifically the system of quadratic voting and isn't design to be an identity system. In fact it would be better suited as a library that can be utilised by other systems which need such a voting mechanism.
