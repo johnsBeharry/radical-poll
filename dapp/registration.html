@@ -28,12 +28,23 @@
               <div class="jumbotron">
                 <h3>Registration</h3>
                 <p class="lead">Simply click the button below in order to obtain "Voice Credits". These credits are for votiing in this Radical Democratic system.<br></p>
+
+                <div class="registration-pending alert alert-light" role="alert" style="display: none">
+                  <h6>Registration in progress</h6>
+                  <p>Sending to the blockchain...</p>
+                </div>
+
+                <div class="registration-failed alert alert-danger" role="alert" style="display: none">
+                  <h6>Registration Failed</h6>
+                  <p>There was an issue with your voter registration. Please try again.</p>
+                </div>
+
                 <button id="registerVoter" type="submit" class="btn btn-primary d-block">Register</button>
               </div>
             </div>
             <div id="voterProfile" style="display: none">
               <div class="jumbotron">
-                <h3>Voter is Registered</h3>
+                <h3>You are a registered voter!</h3>
                 <hr>
                 <p class="lead">You have already registered, now find some issues to vote on now.</p>
                 <a href="index.html" class="btn btn-primary">View Issues</a>

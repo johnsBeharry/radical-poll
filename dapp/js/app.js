@@ -2,6 +2,7 @@ App = {
   web3Provider: null,
   contracts: {},
   account: '0x0',
+  voter: null,
   hasVoted: false,
 
   init: function() {
@@ -10,19 +11,24 @@ App = {
 
   initWeb3: function() {
 
+    // check for ethereum object
     if(window.ethereum){
-      console.log(window.ethereum.selectedAddress, web3.version)
+      console.log('Modern Ethereuum browser detected.');
+
+      // detect network
+      //if(ethereum.networkVersion != 4)
+        //alert('Please connect to the local network or Rinkby.')
+
+      // setup web3
+      if (typeof web3 !== 'undefined') {
+        App.web3Provider = ethereum;
+        var web3 = new Web3(ethereum);
+      } else {
+        App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
+        web3 = new Web3(App.web3Provider);
+      }
     } 
 
-    if (typeof web3 !== 'undefined') {
-      // If a web3 instance is already provided by Meta Mask.
-      App.web3Provider = web3.currentProvider;
-      web3 = new Web3(web3.currentProvider);
-    } else {
-      // Specify default instance if no web3 instance provided
-      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
-      web3 = new Web3(App.web3Provider);
-    }
     return App.initContract();
   },
 
@@ -45,11 +51,11 @@ App = {
       // Restart Chrome if you are unable to receive this event
       // This is a known issue with Metamask
       // https://github.com/MetaMask/metamask-extension/issues/2393
-      instance.votedEvent({}, {
+      instance.Voted({}, {
         fromBlock: 0,
         toBlock: 'latest'
       }).watch(function(error, event) {
-        console.log("event triggered", event)
+        console.log('event triggered', event)
         // Reload when a new vote is recorded
         App.render();
       });
@@ -75,35 +81,61 @@ App = {
     // Load contract data
     App.contracts.QuadraticPoll.deployed().then(function(instance) {
       contractInstance = instance;
-      return contractInstance.candidatesCount();
-    }).then(function(candidatesCount) {
+
+      contractInstance.voters.call(App.account).then(function(voter) {
+        App.voter = {
+          status: voter[0].c[0],
+          credits: voter[1].c[0],
+          totalVotes: voter[2].c[0]
+        };
+
+        $('#accountCredits').html(App.voter.credits);
+
+        if(App.voter.status == 1) {
+          $('#accountStatus').html('Registered Voter')
+        } else {
+          $('#accountStatus').html('Unregistered')
+        }
+
+        console.log('voter', App.voter)
+
+        if (App.voter.status != 0) {
+          App.registeredVoter = true;
+          $('#voterRegistration').hide();
+          $('#voterProfile').show();
+        }
+
+      });
+
+      return contractInstance.issueCount();
+    }).then(function(issueCount) {
       var issuesResults = $("#issuesResults");
       issuesResults.empty();
 
       var issueSelect = $('#issueSelect');
       issueSelect.empty();
 
-      for (var i = 1; i <= candidatesCount; i++) {
-        contractInstance.issues(i).then(function(issue) {
+      for (var i = 1; i <= issueCount; i++) {
+        contractInstance.getIssue(i).then(function(issue) {
           var id = issue[0];
           var title = issue[1];
           var credits = issue[2];
 
           // Render candidate Result
-          var issueTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + credits + "</td></tr>"
+          var issueTemplate = `<tr><th>${id}</th><td>${title}</td><td>${credits}</td></tr>`
           issuesResults.append(issueTemplate);
 
-          // Render candidate ballot option
-          var issueOption = "<option value='" + id + "' >" + name + "</ option>"
+          // Render issues to be voted on
+          var issueOption = "<option value='" + id + "' >" + title + "</ option>"
           issueSelect.append(issueOption);
+
+
+          var issueOption = "<option value='" + id + "' >" + title + "</ option>"
         });
       }
+
       return contractInstance.voters(App.account);
     }).then(function(hasVoted) {
-      // Do not allow a user to vote
-      if(hasVoted) {
-        $('form').hide();
-      }
       loader.hide();
       content.show();
     }).catch(function(error) {
@@ -113,8 +145,9 @@ App = {
 
   castVote: function() {
     var issueId = $('#issueSelect').val();
+    var voteAmt = $('#votesSelect').val();
     App.contracts.QuadraticPoll.deployed().then(function(instance) {
-      return instance.vote(issueId, { from: App.account });
+      return instance.vote(issueId, voteAmt, { from: App.account });
     }).then(function(result) {
       // Wait for votes to update
       $("#content").hide();
@@ -125,6 +158,8 @@ App = {
   },
 
   voterRegister: function() {
+    $('#voterRegistration .registration-pending').show();
+    $('#voterRegistration .registration-failed').hide();
     App.contracts.QuadraticPoll.deployed().then(function(instance) {
       return instance.register({ from: App.account });
     }).then(function(result) {
@@ -133,6 +168,8 @@ App = {
       $('#voterRegistration').hide()
       $('#voterProfile').show()
     }).catch(function(err) {
+    $('#voterRegistration .registration-pending').hide();
+      $('#voterRegistration .registration-failed').show()
       console.error(err);
     });
     return false;
@@ -144,26 +181,27 @@ App = {
         window.ethereum.enable()
           .then(function(account){
             if(account !== undefined) {
-              alert('Metamask unlocked with address. '+ account[0]);
+              console.log('Web3 browser unlocked with address', account[0]);
               $('#accountAddress').html(account[0]);
             } else {
-              alert('Metamask is locked.')
+              alert('Web3 browser is locked.')
             }
           })
       } catch {
-        alert('Please confrim this dapp access to metamask.')
+        alert('Please confrim this dapp access to your Web3 browser in settings.')
       }
     }
   }
 
 };
 
-
-$('#registerVoter').on();
-
-$(function() {
-  App.unlockBrowserWallet();
-  $(window).load(function() {
-    App.init();
-  });
+// click events
+$('#registerVoter').on('click', function(e) {
+  e.preventDefault();
+  App.voterRegister();
 });
+
+window.onload = function() {
+  App.unlockBrowserWallet();
+  App.init();
+};

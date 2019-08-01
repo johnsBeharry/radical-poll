@@ -41,22 +41,43 @@
             <hr/>
             <form onSubmit="App.castVote(); return false;">
               <div class="form-group">
-                <label for="issueSelect">Select an Issue</label>
+                <label class="h6" for="issueSelect">Select an Issue</label>
                 <select class="form-control" id="issueSelect">
                 </select>
               </div>
               <div class="form-group">
-                <label for="votesSelect">How many votes do you want to cast?</label>
+                <label class="h6" for="votesSelect">How many votes do you want to cast on this issue?</label>
                 <select class="form-control" id="votesSelect">
+                  <option value="1">1 Vote (1 Credit)</option>
+                  <option value="2">2 Votes (4 Credits)</option>
+                  <option value="3">3 Votes (9 Credits)</option>
+                  <option value="4">4 Votes (16 Credits)</option>
                 </select>
+
+                <!--<div class="btn-group" data-toggle="buttons">
+                  <label id="vote-1" class="btn btn-outline-primary active">
+                    <input type="radio" name="options" value="1" autocomplete="off" checked> 1 Vote (1 Credit)
+                  </label>
+                  <label id="vote-2" class="btn btn-outline-primary">
+                    <input type="radio" name="options" value="2" autocomplete="off"> 2 Votes (4 Credits)
+                  </label>
+                  <label id="vote-3" class="btn btn-outline-primary disabled">
+                    <input type="radio" name="options" value="3" autocomplete="off"> 3 Votes (9 Credits)
+                  </label>
+                  <label id="vote-4" class="btn btn-outline-primary disabled">
+                    <input type="radio" name="options" value="4" autocomplete="off"> 4 Votes (16 Credits)
+                  </label>
+                </div>-->
               </div>
               <button type="submit" class="btn btn-primary">Vote</button>
             </form>
           </div>
-          <footer>
-            <hr />
-            <h6 class="text-center">Your Account</h6>
-            <p class="text-center"><code id="accountAddress">0x...</code></p>
+
+          <footer id="profile" class="jumbotron mt-5">
+            <h6>Profile</h6>
+            <p>Address: <code id="accountAddress">0x...</code></p>
+            <p>Voice Credits: <code id="accountCredits">...</code></p>
+            <p>Registration Status: <code id="accountStatus">...</code></p>
           </footer>
         </div>
       </div>

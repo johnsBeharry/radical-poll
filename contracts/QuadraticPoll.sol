@@ -40,6 +40,12 @@ contract QuadraticPoll is Ownable {
 		address creator
 	);
 
+	event Voted(
+		uint256 _issueId,
+		uint256 cost,
+		address _voter
+	);
+
 	modifier isRegistered() {
 		require(voters[msg.sender].status == Status.REGISTERED);
 		_;
@@ -72,8 +78,8 @@ contract QuadraticPoll is Ownable {
 	function getIssue(uint256 _issueId)
 	external
 	view
-	returns (string memory, uint256) {
-		return(issues[_issueId].title, issues[_issueId].credits);
+	returns (uint256, string memory, uint256) {
+		return(_issueId, issues[_issueId].title, issues[_issueId].credits);
 	}
 
 	/// Get an new issue
@@ -95,6 +101,8 @@ contract QuadraticPoll is Ownable {
 		voters[msg.sender].count += 1;
 		voters[msg.sender].credits = voters[msg.sender].credits.sub(cost);
 		issues[_issueId].credits = issues[_issueId].credits.add(cost);
+
+		emit Voted(_issueId, cost, msg.sender);
 	}
 
 	/// Allocate credits to new voters
