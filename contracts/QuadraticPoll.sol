@@ -9,6 +9,7 @@ import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 contract QuadraticPoll is Ownable {
 	using SafeMath for uint256;
 
+	bool private stopped;
 	uint256 public issueCount;
 
 	// constants
@@ -46,13 +47,21 @@ contract QuadraticPoll is Ownable {
 		address _voter
 	);
 
+	// Rejects if contract has been stopped
+	modifier stopInEmergency {
+		require(!stopped, "Democracy has stopped...");
+		_;
+	}
+
+	// Check if a voter has been registered
 	modifier isRegistered() {
 		require(voters[msg.sender].status == Status.REGISTERED);
 		_;
 	}
-	
+
 	constructor()
 	public {
+		stopped = false;
 		issueCount = 0;
 		newIssue('The development of domestic institutions');
 		newIssue('The representatives in the international sphere');
@@ -64,6 +73,7 @@ contract QuadraticPoll is Ownable {
 	/// @return id of the issue
 	function newIssue(string memory _title)
 	public
+	stopInEmergency
 	returns (uint256) {
 		issueCount = issueCount + 1;
 		issues[issueCount].title = _title;
@@ -90,6 +100,7 @@ contract QuadraticPoll is Ownable {
 		uint256 _votes
 	)
 	external
+	stopInEmergency
 	isRegistered
 	returns (uint256)
 	{
@@ -107,10 +118,23 @@ contract QuadraticPoll is Ownable {
 
 	/// Allocate credits to new voters
 	/// @return title of the issue
-	function register() external returns (bool) {
+	function register()
+	external
+	stopInEmergency
+	returns (bool)
+	{
 		if(voters[msg.sender].count == 0) {
 			voters[msg.sender].credits = STARTING_CREDIT;
 			voters[msg.sender].status = Status.REGISTERED;
 		}
 	}
+
+	/// Circuit Breaker for emergancy stopping of democracy. Use carefully
+	function toggleContractActive()
+	public
+	onlyOwner
+	{
+		stopped = !stopped;
+	}
+
 }

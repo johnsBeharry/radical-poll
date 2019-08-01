@@ -109,6 +109,7 @@ App = {
 
       return contractInstance.issueCount();
     }).then(function(issueCount) {
+      console.log(typeof issueCount, issueCount);
       var issuesResults = $("#issuesResults");
       issuesResults.empty();
 

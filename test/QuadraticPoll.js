@@ -1,10 +1,12 @@
+const {expectRevert} = require("openzeppelin-test-helpers");
+const {expect, assert} = require("chai");
 const QuadraticPoll = artifacts.require('QuadraticPoll');
 
 contract('QuadraticPoll', accounts => {
 
-	const TITLE_1 = 'The development of domestic institutions';
-	const TITLE_2 = 'The representatives in the international sphere';
-	const TITLE_3 = 'Inclusion Caribbean nations in the African Union';
+	const TITLE_1 = 'The development of domestic institutions'; // 1
+	const TITLE_2 = 'The representatives in the international sphere'; // 2
+	const TITLE_3 = 'Inclusion Caribbean nations in the African Union'; // 2
 
 	it('Must be registered to vote', async () => {
 		let contract = await QuadraticPoll.deployed();
@@ -25,16 +27,13 @@ contract('QuadraticPoll', accounts => {
 		let voterRegistration = await contract.register({from: accounts[0]});
 		let voterBeforeVoting = await contract.voters.call(accounts[0]);
 		let voter_credits_before = voterBeforeVoting[1].toNumber();
-		// let voter_totalVotes_before = voterBeforeVoting[2].toNumber();
 
 		// do vote
-	 	let issue_1 = await contract.newIssue(TITLE_3, {from: accounts[0]});
 		let voteOnIssue = contract.vote(1, 1, {from: accounts[0]}); // one vote
 
 		// check voter
 		let voterAfterVoting = await contract.voters.call(accounts[0]);
 		let voter_credits_after = voterAfterVoting[1].toNumber();
-		// let voter_totalVotes_after = voterAfterVoting[2].toNumber();
 
 		assert.equal(voter_credits_before - 1, voter_credits_after);
 	});
@@ -46,16 +45,13 @@ contract('QuadraticPoll', accounts => {
 		let voterRegistration = await contract.register({from: accounts[1]});
 		let voterBeforeVoting = await contract.voters.call(accounts[1]);
 		let voter_credits_before = voterBeforeVoting[1].toNumber();
-		// let voter_totalVotes_before = voterBeforeVoting[2].toNumber();
 
 		// do vote
-	 	let issue_1 = await contract.newIssue(TITLE_3, {from: accounts[1]});
 		let voteOnIssue = contract.vote(1, 2, {from: accounts[1]}); // one vote
 
 		// check voter
 		let voterAfterVoting = await contract.voters.call(accounts[1]);
 		let voter_credits_after = voterAfterVoting[1].toNumber();
-		// let voter_totalVotes_after = voterAfterVoting[2].toNumber();
 
 		assert.equal(voter_credits_before - 4, voter_credits_after);
 	});
@@ -67,16 +63,13 @@ contract('QuadraticPoll', accounts => {
 		let voterRegistration = await contract.register({from: accounts[2]});
 		let voterBeforeVoting = await contract.voters.call(accounts[2]);
 		let voter_credits_before = voterBeforeVoting[1].toNumber();
-		// let voter_totalVotes_before = voterBeforeVoting[2].toNumber();
 
 		// do vote
-	 	let issue_1 = await contract.newIssue(TITLE_3, {from: accounts[2]});
 		let voteOnIssue = contract.vote(1, 3, {from: accounts[2]}); // one vote
 
 		// check voter
 		let voterAfterVoting = await contract.voters.call(accounts[2]);
 		let voter_credits_after = voterAfterVoting[1].toNumber();
-		// let voter_totalVotes_after = voterAfterVoting[2].toNumber();
 
 		assert.equal(voter_credits_before - 9, voter_credits_after);
 	});
@@ -88,18 +81,25 @@ contract('QuadraticPoll', accounts => {
 		let voterRegistration = await contract.register({from: accounts[3]});
 		let voterBeforeVoting = await contract.voters.call(accounts[3]);
 		let voter_credits_before = voterBeforeVoting[1].toNumber();
-		// let voter_totalVotes_before = voterBeforeVoting[2].toNumber();
 
 		// do vote
-	 	let issue_1 = await contract.newIssue(TITLE_3, {from: accounts[3]});
 		let voteOnIssue = contract.vote(1, 4, {from: accounts[3]}); // one vote
 
 		// check voter
 		let voterAfterVoting = await contract.voters.call(accounts[3]);
 		let voter_credits_after = voterAfterVoting[1].toNumber();
-		// let voter_totalVotes_after = voterAfterVoting[2].toNumber();
 
 		assert.equal(voter_credits_before - 16, voter_credits_after);
+	});
+
+	it('Cannot register if contract has paused', async () => {
+		let contract = await QuadraticPoll.deployed();
+
+		// stop the contract
+		let stopContract = await contract.toggleContractActive({from: accounts[0]});
+
+		// registration should fail
+		await expectRevert(contract.register({from: accounts[1]}), 'Democracy has stopped...');
 	});
 
 });
