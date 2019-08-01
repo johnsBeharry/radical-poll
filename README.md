@@ -19,8 +19,11 @@ Upon registration a voter gets 16 credits and theres an allotment of 1024 total 
 npm i
 ganache-cli
 npm run dev
-truffle test
+truffle migrate --reset
 ```
+
+###### IMPORTANT
+Due to some limitation in ganache-cli the only addresses that can interact with the contract are the ones in ganache so you will have to import this in MetaMask in order to test locally.
 
 ### Testing
 ```
