@@ -21,3 +21,8 @@ ganache-cli
 npm run dev
 truffle test
 ```
+
+### Testing
+```
+truffle test
+```
