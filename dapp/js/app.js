@@ -144,10 +144,10 @@ App = {
         window.ethereum.enable()
           .then(function(account){
             if(account !== undefined) {
-              console.log('Metamask unlocked.');
+              alert('Metamask unlocked with address. '+ account[0]);
               $('#accountAddress').html(account[0]);
             } else {
-              console.log('Metamask is locked.')
+              alert('Metamask is locked.')
             }
           })
       } catch {
@@ -157,6 +157,9 @@ App = {
   }
 
 };
+
+
+$('#registerVoter').on();
 
 $(function() {
   App.unlockBrowserWallet();
