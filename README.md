@@ -20,6 +20,7 @@ npm i
 ganache-cli
 npm run dev
 truffle migrate --reset
+// open http://localhost:3000 
 ```
 
 #### Setup Accounts
