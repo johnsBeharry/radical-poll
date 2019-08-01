@@ -1,4 +1,4 @@
-#Quadratic Voting
+# Quadratic Voting
 
 This is an implementation of a voting mechanism described in the book Radical Markets.
 Each voter gets 16 "Voice Credits", which they can spend on various issues.
@@ -21,6 +21,13 @@ ganache-cli
 npm run dev
 truffle migrate --reset
 ```
+
+#### Setup Accounts
+1. Generate a mnemonic
+2. Paste mnemonic in `.env`
+3. Get some test Ether from Ropsten Faucet (https://faucet.metamask.io/)
+
+#### 
 
 ###### IMPORTANT
 Due to some limitation in ganache-cli the only addresses that can interact with the contract are the ones in ganache so you will have to import this in MetaMask in order to test locally.
