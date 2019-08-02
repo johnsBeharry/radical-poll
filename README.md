@@ -17,9 +17,9 @@ Upon registration a voter gets 16 credits and theres an allotment of 1024 total 
 ### Setup
 ```
 npm i
-ganache-cli
-npm run dev
+ganache-cli -m 'your mnemonic phrase from ganache'
 truffle migrate --reset
+npm run dev
 // open http://localhost:3000 
 ```
 
