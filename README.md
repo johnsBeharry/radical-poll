@@ -23,10 +23,13 @@ npm run dev
 // open http://localhost:3000 
 ```
 
-###### IMPORTANT
+#### Metamask
 Due to some limitation in ganache-cli the only addresses that can interact with the contract are the ones in ganache so you will have to import this in MetaMask in order to test locally.
 
-Video Demo;
+- Connect metamask to your local Etherum blockchain provided by Ganache.
+- Import an account provided by ganache.
+
+#### Video Demo;
 - https://drive.google.com/file/d/1580yZtmGRUEvriW5mw95ZMU4u4FV9fy2/view?usp=sharing
 
 ### Testing
