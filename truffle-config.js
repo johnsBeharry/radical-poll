@@ -21,6 +21,10 @@ module.exports = {
 
   },
 
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+
   // Set default mocha options here, use special reporters etc.
   mocha: {
     // timeout: 100000
@@ -30,5 +34,9 @@ module.exports = {
   compilers: {
     solc: {
     }
+  },
+
+  api_keys: {
+    etherscan: process.env.ETHERSCAN
   }
 }
