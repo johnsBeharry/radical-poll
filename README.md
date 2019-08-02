@@ -23,15 +23,11 @@ truffle migrate --reset
 // open http://localhost:3000 
 ```
 
-#### Setup Accounts
-1. Generate a mnemonic
-2. Paste mnemonic in `.env`
-3. Get some test Ether from Ropsten Faucet (https://faucet.metamask.io/)
-
-#### 
-
 ###### IMPORTANT
 Due to some limitation in ganache-cli the only addresses that can interact with the contract are the ones in ganache so you will have to import this in MetaMask in order to test locally.
+
+Video Demo;
+- https://drive.google.com/file/d/1580yZtmGRUEvriW5mw95ZMU4u4FV9fy2/view?usp=sharing
 
 ### Testing
 ```
