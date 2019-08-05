@@ -12,21 +12,18 @@ App = {
   initWeb3: function() {
 
     // check for ethereum object
-    if(window.ethereum){
+    if(typeof window.ethereum !== 'undefined'){
       console.log('Modern Ethereuum browser detected.');
 
       // detect network
-      //if(ethereum.networkVersion != 4)
-        //alert('Please connect to the local network or Rinkby.')
+      if([4, ].includes(ethereum.networkVersion)) {
+        console.log('Please connect to the local network or Rinkby.')
+      }
 
       // setup web3
-      if (typeof web3 !== 'undefined') {
-        App.web3Provider = ethereum;
-        var web3 = new Web3(ethereum);
-      } else {
-        App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
-        web3 = new Web3(App.web3Provider);
-      }
+      App.web3Provider = window.ethereum || window.web3.currentProvider;
+
+      web3 = new Web3(App.web3Provider);
     } 
 
     return App.initContract();
