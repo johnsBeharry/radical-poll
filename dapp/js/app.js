@@ -16,14 +16,16 @@ App = {
       console.log('Modern Ethereuum browser detected.');
 
       // detect network
-      if([4, ].includes(ethereum.networkVersion)) {
-        console.log('Please connect to the local network or Rinkby.')
+      if([3, 4, 5].includes(ethereum.networkVersion)) {
+        console.log('Please connect to the Ropsten, Rinkby or your Local Network.')
       }
 
       // setup web3
       App.web3Provider = window.ethereum || window.web3.currentProvider;
 
       web3 = new Web3(App.web3Provider);
+    } else {
+      console.log('Not using an Ethereum Browser.');
     } 
 
     return App.initContract();

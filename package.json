@@ -8,7 +8,10 @@
   },
   "scripts": {
     "dev": "lite-server",
-    "deploy": "truffle deploy --network ropsten"
+    "deploy:ropsten": "truffle deploy --network ropsten",
+    "deploy:rinkby": "truffle deploy --network rinkby",
+    "deploy:goerli": "truffle deploy --network goerli",
+    "flatten": "truffle-flattener contracts/QuadraticPoll.sol"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +21,7 @@
     "lite-server": "^2.5.3",
     "openzeppelin-solidity": "^2.3.0",
     "openzeppelin-test-helpers": "^0.4.2",
+    "truffle-contract": "^4.0.27",
     "truffle-hdwallet-provider": "^1.0.15",
     "truffle-plugin-verify": "^0.3.2"
   }
