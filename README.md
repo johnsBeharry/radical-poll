@@ -15,12 +15,25 @@ Upon registration a voter gets 16 credits and theres an allotment of 1024 total 
 - ganache-cli
 
 ### Setup
+
 ```
+// Install Dependencies
 npm i
+
+// Startup Ganache
 ganache-cli -m 'your mnemonic phrase from ganache'
+
+// migrate the contracts
 truffle migrate --reset
+
+// Copy Environments file and add your ganache mnemonic
+cp .env-sample .env
+
+// Start web server
 npm run dev
-// open http://localhost:3000 
+
+// Open dapp in browser
+//open http://localhost:3000
 ```
 
 #### Metamask
