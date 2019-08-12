@@ -8,10 +8,12 @@
   },
   "scripts": {
     "dev": "lite-server",
+    "cp:artifacts": "cp ./build/contracts ./dapp/contracts",
+    "deploy:local": "truffle migrate --reset",
     "deploy:ropsten": "truffle deploy --network ropsten",
     "deploy:rinkby": "truffle deploy --network rinkby",
     "deploy:goerli": "truffle deploy --network goerli",
-    "flatten": "truffle-flattener contracts/QuadraticPoll.sol"
+    "flatten": "truffle-flattener contracts/QuadraticPoll.sol --output verification/QuadraticPoll.sol"
   },
   "author": "",
   "license": "ISC",
