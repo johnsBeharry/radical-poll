@@ -32,7 +32,7 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON("QuadraticPoll.json", function(poll) {
+    $.getJSON("QuadraticPoll.json?v=0.1.0", function(poll) {
       // Instantiate a new truffle contract from the artifact
       App.contracts.QuadraticPoll = TruffleContract(poll);
       // Connect provider to interact with contract
