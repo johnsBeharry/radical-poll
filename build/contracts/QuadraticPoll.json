@@ -7821,6 +7821,12 @@
     "version": "0.5.8+commit.23d335f2.Emscripten.clang"
   },
   "networks": {
+    "5": {
+      "events": {},
+      "links": {},
+      "address": "0x9B3A9Bfe4aD1c1c73E87918200F50339795D7b00",
+      "transactionHash": "0x68c9ba2bef8735dcb59160d972bac7d58421573257b446ca2e6d2fc3e72a226f"
+    },
     "1565433339962": {
       "events": {},
       "links": {},
@@ -7829,7 +7835,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-10T10:45:04.452Z",
+  "updatedAt": "2019-08-12T17:03:21.758Z",
   "devdoc": {
     "author": "Johns Beharry",
     "methods": {
