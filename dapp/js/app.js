@@ -83,9 +83,9 @@ App = {
 
       contractInstance.voters.call(App.account).then(function(voter) {
         App.voter = {
-          status: voter[0].c[0],
-          credits: voter[1].c[0],
-          totalVotes: voter[2].c[0]
+          status: voter[0].toString()],
+          credits: voter[1].toString(),
+          totalVotes: voter[2].toString()
         };
 
         $('#accountCredits').html(App.voter.credits);
