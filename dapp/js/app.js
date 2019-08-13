@@ -83,7 +83,7 @@ App = {
 
       contractInstance.voters.call(App.account).then(function(voter) {
         App.voter = {
-          status: voter[0].toString()],
+          status: voter[0].toString(),
           credits: voter[1].toString(),
           totalVotes: voter[2].toString()
         };
