@@ -1,5 +1,13 @@
 Ropsten
 	QuadraticPoll Contract
 		0xf6D5be2D38c1aA205369d22d7112D2E1c0961704
+
+		Transaction
+			0xa0a7c23ea9c2166aa63b7be2904f164436ad45073477bac642fa0c3c72c7573e
 	Migration
 		0x5F5783322A82598008a6F715767b6C5Aad5B3137
+Goerli
+	QuadraticPoll Contract
+		0x9b3a9bfe4ad1c1c73e87918200f50339795d7b00
+	Migration
+		0x8b3349829fac318FBc02D743a84879fcB7dF2FC
