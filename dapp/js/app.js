@@ -13,7 +13,7 @@ App = {
 
     // check for ethereum object
     if(typeof window.ethereum !== 'undefined'){
-      console.log('Modern Ethereuum browser detected.');
+      console.log('Modern Ethereum browser detected.');
 
       // detect network
       if([3, 4, 5].includes(ethereum.networkVersion)) {
